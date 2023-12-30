@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffb8e8;
+  padding: 10px;
+}
+
+#c0src {
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.console {
+  font-family: "Lucida Console", "Courier New", monospace;
+  /* font-size: 15px; */
+  font-weight: normal;
+}
+
+.compile_src {
+  float: left;
+  /* width: 60%; */
+  padding: 10px;
+}
+
+.compile_config {
+  float: left;
+  /* width: 40%; */
+  padding: 10px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
