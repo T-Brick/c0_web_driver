@@ -36,3 +36,8 @@ body {
   display: table;
   clear: both;
 }
+
+.infodump {
+  padding: 10px;
+  font-size: 18px;
+}
