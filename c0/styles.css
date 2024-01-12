@@ -4,6 +4,9 @@
 
 html {
   background-color: #ffb8e8;
+
+  /* colours are hard :sob: */
+  /* background-color: #feafd6; */
   /* color: #5c357c */
 }
 
@@ -32,7 +35,7 @@ body {
 }
 
 #content {
-  max-width: 950px;
+  max-width: 990px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -65,15 +68,15 @@ body {
   padding: 10px;
 }
 
-.row {
-  display: inline-block;
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 #infodump {
   width: auto;
-  float:left;
   margin-left:10px;
-  font-size: 18px;
-  text-overflow:ellipsis; 
+  font-size: 1.15em;
   word-wrap: break-word;
 }
