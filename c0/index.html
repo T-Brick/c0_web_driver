@@ -1,296 +1,162 @@
 <!doctype html>
 <html lang="en-us">
 <head>
-  <title>Thea's Website - c0deine </title>
+  <title>Thea's Website - c0deine</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-  <h1><b>C0deine</b></h1>
-  <hr>
-  <div class="row">
-    <div class="compile_src">
-      <textarea id="c0src" name="c0src" rows="25" cols="60">
-#use &lt;conio&gt;
-#use &lt;string&gt;
-
-int main() {
-  string hello = "Hello ";
-  string world = "World!";
-
-  println(string_join(hello, world));
-  return 150;
-}
-</textarea>
+  <div id="page_header">
+    <span class="title">C0deine</span>
     <br />
-    <input id="save" type="submit" value="Save" onClick="save();">
-    <input id="load" type="submit" value="Load" onClick="load();">
-    </div>
-    <div class="compile_config">
-      <table>
-        <tr>
-          <td><b>Language</b></td>
-          <td>
-            <select name="lang" id="lang">
-              <option value="C0">C0</option>
-              <option value="L4">L4</option>
-              <option value="L3">L3</option>
-              <option value="L2">L2</option>
-              <option value="L1">L1</option>
-            </select>
-          </td>
-        </tr>
-        <tr hidden="1">
-          <td><b>Verbose</b></td>
-          <td><input type="checkbox" id="verbose" name="verbose" value=""></td>
-        </tr>
-        <tr>
-          <td><b>Typecheck Only</b></td>
-          <td><input type="checkbox" id="tc-only" name="tc-only" value=""></td>
-        </tr>
-        <tr>
-          <td><b>Unsafe</b></td>
-          <td><input type="checkbox" id="unsafe" name="unsafe" value=""></td>
-        </tr>
-        <tr>
-          <td><b>Unsafe Assertion Checking</b></td>
-          <td><input type="checkbox" id="unsafe-assert" name="unsafe-assert" value=""></td>
-        </tr>
-        <!-- Currently unimplemented so don't show :) -->
-        <!-- <tr>
-          <td><b>Dynamic Contract Checking</b></td>
-          <td><input type="checkbox" id="dyn-check" name="dyn-check" value=""></td>
-        </tr>
-        <tr>
-          <td><b>No Purity Checks</b></td>
-          <td><input type="checkbox" id="no-purity" name="no-purity" value=""></td>
-        </tr> -->
-        <tr>
-          <td><b>Dump Typed Syntax Tree</b></td>
-          <td><input type="checkbox" id="dump-tst" name="dump-tst" value=""></td>
-        </tr>
-        <tr>
-          <td><b>Dump IR</b></td>
-          <td><input type="checkbox" id="dump-ir" name="dump-ir" value=""></td>
-        </tr>
-        <tr>
-          <td><b>Dump CFG</b></td>
-          <td><input type="checkbox" id="dump-cfg" name="dump-cfg" value=""></td>
-        </tr>
-        <tr>
-          <td><b>Dump WAT</b></td>
-          <td><input type="checkbox" id="dump-wat" name="dump-wat" value=""></td>
-        </tr>
-      </table>
-      <hr />
-      <div>
-        <div id="status"></div>
-        <progress value="0" max="100" id="progress" hidden=1></progress>
-        <input id="compile" type="submit" value="Compile" onClick="compile();">
-        <input id="result" type="text" readonly=true></input>
-        <b>v24.01.0</b>
-      </div>
-      <br />
-      <textarea id="output" class="console" rows="20" cols="40" readonly=true></textarea>
-    </div>
+    <span class="subtitle">C0 to WebAssembly Compiler</span>
   </div>
   <hr>
-  <!-- Based on the emscripten minimal shell template -->
-  <script src="c0_runtime.js"></script>
-  <script async src="c0deine.js"></script>
-  <script type='text/javascript'>
-    var statusElement = document.getElementById('status');
-    var progressElement = document.getElementById('progress');
-    var compileElement = document.getElementById('compile');
-    var resultElement = document.getElementById('result');
+  <div id="content">
+    <div class="row">
+      <div class="compile_src">
+        <textarea id="c0src" name="c0src" rows="25" cols="60">
+/* Write a program here! */
+</textarea>
+      <br />
+      <input id="save" type="submit" value="Save for later" onClick="save();">
+      <input id="load" type="submit" value="Load" onClick="load();">
+      <select name="load_from" id="load_from">
+        <option value="saved">from saved</option>
+        <option value="hello_world">hello_world.c0</option>
+        <option value="exp">exp.c0</option>
+        <option value="blank">blank.c0</option>
+      </select>
+      </div>
+      <div class="compile_config">
+        <table>
+          <tr>
+            <td><b>Language</b></td>
+            <td>
+              <select name="lang" id="lang">
+                <option value="C0">C0</option>
+                <option value="L4">L4</option>
+                <option value="L3">L3</option>
+                <option value="L2">L2</option>
+                <option value="L1">L1</option>
+              </select>
+            </td>
+          </tr>
+          <tr hidden="1">
+            <td><b>Verbose</b></td>
+            <td><input type="checkbox" id="verbose" name="verbose" value=""></td>
+          </tr>
+          <tr>
+            <td><b>Typecheck Only</b></td>
+            <td><input type="checkbox" id="tc-only" name="tc-only" value=""></td>
+          </tr>
+          <tr>
+            <td><b>Unsafe</b></td>
+            <td><input type="checkbox" id="unsafe" name="unsafe" value=""></td>
+          </tr>
+          <tr>
+            <td><b>Unsafe Assertion Checking</b></td>
+            <td><input type="checkbox" id="unsafe-assert" name="unsafe-assert" value=""></td>
+          </tr>
+          <!-- Currently unimplemented so don't show :) -->
+          <!-- <tr>
+            <td><b>Dynamic Contract Checking</b></td>
+            <td><input type="checkbox" id="dyn-check" name="dyn-check" value=""></td>
+          </tr>
+          <tr>
+            <td><b>No Purity Checks</b></td>
+            <td><input type="checkbox" id="no-purity" name="no-purity" value=""></td>
+          </tr> -->
+          <tr>
+            <td><b>Dump Typed Syntax Tree</b></td>
+            <td><input type="checkbox" id="dump-tst" name="dump-tst" value=""></td>
+          </tr>
+          <tr>
+            <td><b>Dump IR</b></td>
+            <td><input type="checkbox" id="dump-ir" name="dump-ir" value=""></td>
+          </tr>
+          <tr>
+            <td><b>Dump CFG</b></td>
+            <td><input type="checkbox" id="dump-cfg" name="dump-cfg" value=""></td>
+          </tr>
+          <tr>
+            <td><b>Dump WAT</b></td>
+            <td><input type="checkbox" id="dump-wat" name="dump-wat" value=""></td>
+          </tr>
+        </table>
+        <hr />
+        <div>
+          <div id="status"></div>
+          <progress value="0" max="100" id="progress" hidden=1></progress>
+          <input id="compile" type="submit" value="Compile" onClick="compile();">
+          <input id="result" type="text" readonly=true></input>
+          <b>v24.01.0</b>
+        </div>
+        <br />
+        <textarea id="output" class="console" rows="20" cols="40" readonly=true></textarea>
+      </div>
+    </div>
+    <hr>
 
-    const printConsole = (function() {
-      var element = document.getElementById('output');
-      if (element) element.value = ''; // clear browser cache
-      return function(text) {
-        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-        if(text.startsWith("!wasm-dump: ")) {
-          c0_result("running...");
+    <script src="c0_runtime.js"></script>
+    <script async src="c0deine.js"></script>
+    <script src="programs.js"></script>
+    <script src="interface.js"></script>
 
-          var str_bytes = text.split(" ");
-          str_bytes.shift();
-          var bytes = []
-          for(let b of str_bytes) {
-            bytes.push(parseInt("0x" + b, 16));
-          }
-          c0_run(new Uint8Array(bytes));
-        } else {
-          if (element) {
-            element.value += text + "\n";
-            element.scrollTop = element.scrollHeight; // focus on bottom
-          }
-        }
-      };
-    });
-
-    var initModule = function() {
-      return {
-        // noInitialRun: true,
-        // noExitRuntime: true,
-        print: printConsole(),
-        printErr: printConsole(),
-        setStatus: (text) => {
-          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
-          if (text === Module.setStatus.last.text) return;
-          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-          var now = Date.now();
-          if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
-          Module.setStatus.last.time = now;
-          Module.setStatus.last.text = text;
-          if (m) {
-            text = m[1];
-            progressElement.value = parseInt(m[2])*100;
-            progressElement.max = parseInt(m[4])*100;
-            progressElement.hidden = false;
-            compileElement.style.visibility = "hidden";
-            resultElement.style.visibility = "hidden";
-          } else {
-            progressElement.value = null;
-            progressElement.max = null;
-            progressElement.hidden = true;
-            compileElement.style.visibility = "visible";
-            resultElement.style.visibility = "visible";
-          }
-          statusElement.innerHTML = text;
-        },
-        totalDependencies: 0,
-        monitorRunDependencies: (left) => {
-          this.totalDependencies = Math.max(this.totalDependencies, left);
-          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
-        }
-      };
-    }
-  var Module = initModule();
-  Module.setStatus('');
-  window.onerror = () => {
-    Module.setStatus('Exception thrown, see JavaScript console');
-    // spinnerElement.style.display = 'none';
-    Module.setStatus = (text) => {
-      if (text) console.error('[post-exception status] ' + text);
-    };
-  };
-
-  function save() {
-    var src = encodeURIComponent(document.getElementById("c0src").value);
-    document.cookie = "prog=" + src;
-    c0_log("Program saved!\n");
-  }
-
-  function load() {
-    var src = document.cookie;
-    if(src.startsWith("prog=")) {
-      src = src.substring(5);
-      src = decodeURIComponent(src);
-    }
-    document.getElementById("c0src").value = src;
-    c0_log("Program loaded!\n");
-  }
-
-  function compile() {
-    c0_result("compiling...");
-    Module=initModule();
-
-    const verbose = document.getElementById('verbose').checked;
-    const only_typecheck = document.getElementById('tc-only').checked;
-    const unsafe = document.getElementById('unsafe').checked;
-    const unsafe_assert = document.getElementById('unsafe-assert').checked;
-    const dump_tst = document.getElementById('dump-tst').checked;
-    const dump_ir = document.getElementById('dump-ir').checked;
-    const dump_cfg = document.getElementById('dump-cfg').checked;
-    const dump_wat = document.getElementById('dump-wat').checked;
-
-    var args = ["--cl-program", "--dump-wasm", "-e", "wasm"];
-    args.push("-x");
-    args.push(document.getElementById('lang').value);
-
-    if(only_typecheck) args.push("-t");
-    if(verbose) args.push("-v");
-    if(unsafe) args.push("--unsafe");
-    if(unsafe_assert) args.push("--unsafe-assert-check");
-    if(dump_tst) args.push("--dump-tst");
-    if(dump_ir) args.push("--dump-ir");
-    if(dump_cfg) args.push("--dump-cfg");
-    if(dump_wat) args.push("--dump-wat");
-
-    var src = "" + document.getElementById("c0src").value;
-    src = src.replaceAll("\\n", "\\\\\\n");
-    src = src.replaceAll("\n", "\\n");
-    args.push(src);
-
-    Module["arguments"] = args;
-    c0deine(Module).then((instance) => {
-      if(only_typecheck) {
-        if(verbose){
-          c0_result("");
-        } else if(document.getElementById("output").value === '') {
-          c0_result("Typechecks!");
-        } else {
-          c0_result("Typecheck failure :(");
-        }
-      }
-    });
-  }
-  </script>
-
-  <div class="infodump">
-    <h2>About</h2>
-    <p>
-      <a href="https://github.com/T-Brick/c0deine">C0deine</a> is a compiler for
-      c0. It is written in Lean 4, which allows us to express the formal semantics
-      in the same language as the compiler itself. We hope to fully verify the
-      entire compiler at some point/soon.
+    <div id="infodump">
+      <h2>About</h2>
+      <p>
+        <a href="https://github.com/T-Brick/c0deine">C0deine</a> is a compiler for
+        c0. It is written in Lean 4, which allows us to express the formal semantics
+        in the same language as the compiler itself. We hope to fully verify the
+        entire compiler at some point/soon.
+        </p>
+        <p>
+        C0deine implements a number of "sub"-languages of C0 as well as fixing some
+        bugs in the existing compiler. See
+        <a href="https://github.com/T-Brick/c0deine/blob/main/langs.md">this</a>
+        document for information about the languages themselves, as well as a list
+        of changes/corrections. If you find any issues, please report them
+        <a href="https://github.com/T-Brick/c0deine/issues">here</a>.
+      </p>
+      <h3>Verification Status</h3>
+      Currently the following parts of the compiler are verified:
+      <ul>
+        <li><u>Abstract Syntax Tree</u>: Static and Dynamic Semantics are
+          formalised.
+        </li>
+        <li><u>Typechecker</u>: Output is verified to be a well-typed program
+          where all variables are initialised before use and all control-flow
+          paths return. Though, the output hasn't been verified to be correct
+          with respect to the dynamic semantics.
+        </li>
+        <li><u>Typed Syntax Tree</u>: Static Semantics are definitionally
+          enforced.
+        </li>
+        <li><u>WebAssembly</u>: Static Semantics are formalised; Dynamic
+          Semantics arepartially formalised.
+        </li>
+      </ul>
+      Hopefully more will be finished soon! : )
+      <h3>Aside about using Lean</h3>
+      <p>
+        One thing striking about learning Lean was how well Standard ML and OCaml
+        could be translated into it. From what I've seen, if I have a working
+        function in SML/OCaml, all I really need to do is change the keywords (and
+        annotate the function args/return type) and it generally just works
+        without fuss. Even proofs about SML code can (in my experience) be
+        one-to-one translated into the same proof about the Lean version of the
+        code.
       </p>
       <p>
-      C0deine implements a number of "sub"-languages of C0 as well as fixing some
-      bugs in the existing compiler. See
-      <a href="https://github.com/T-Brick/c0deine/blob/main/langs.md">this</a>
-      document for information about the languages themselves, as well as a list
-      of changes/corrections. If you find any issues, please report them
-      <a href="https://github.com/T-Brick/c0deine/issues">here</a>.
-    </p>
-    <h3>Verification Status</h3>
-    Currently the following parts of the compiler are verified:
-    <ul>
-      <li>
-        Abstract Syntax Tree: Static and Dynamic Semantics are formalised.
-      </li>
-      <li>Typechecker: Output is verified to be a well-typed program where all
-        variables are initialised before use and all control-flow paths return.
-        Though, the output hasn't been verified to be correct with respect to
-        the dynamic semantics.
-      </li>
-      <li>
-        Typed Syntax Tree: Static Semantics are definitionally enforced.
-      </li>
-      <li>
-        WebAssembly: Static Semantics are formalised; Dynamic Semantics are
-        partially formalised.
-      </li>
-    </ul>
-    Hopefully more will be finished soon! : )
-    <h3>Aside about using Lean</h3>
-    <p>
-      One thing striking about learning Lean was how well Standard ML and OCaml
-      could be translated into it. From what I've seen, if I have a working
-      function in SML/OCaml, all I really need to do is change the keywords (and
-      annotate the function args/return type) and it generally just works
-      without fuss. Even proofs about SML code can (in my experience) be
-      one-to-one translated into the same proof about the Lean version of the
-      code.
-    </p>
-    <p>
-      There's a lot more about Lean that I like (how readable it is, tooling,
-      meta-programming, etc.) but I won't go into more depth here. In general,
-      I would like to make it clear that Lean markets itself as a "programming
-      language and theorem prover", but the "theorem proving" part is largely
-      optional. And when evaluating it as a programming language, I struggle to
-      find a reason, other than legacy code and perhaps more mature libraries,
-      to use SML or OCaml over Lean.
-    </p>
+        There's a lot more about Lean that I like (how readable it is, tooling,
+        meta-programming, etc.) but I won't go into more depth here. In general,
+        I would like to make it clear that Lean markets itself as a "programming
+        language and theorem prover", but the "theorem proving" part is largely
+        optional. And when evaluating it as a programming language, I struggle to
+        find a reason, other than legacy code and perhaps more mature libraries,
+        to use SML or OCaml over Lean.
+      </p>
+    </div>
   </div>
 </body>
 </html>
