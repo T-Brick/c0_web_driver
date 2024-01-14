@@ -122,17 +122,19 @@ function compile() {
   args.push(src);
 
   Module["arguments"] = args;
-  c0deine(Module).then((instance) => {
-    if(only_typecheck) {
-      if(verbose){
-        c0_result("");
-      } else if(document.getElementById("output").value === '') {
-        c0_result("Typechecks!");
-      } else {
-        c0_result("Typecheck failure :(");
+  setTimeout(() => {
+    c0deine(Module).then((instance) => {
+      if(only_typecheck) {
+        if(verbose){
+          c0_result("");
+        } else if(document.getElementById("output").value === '') {
+          c0_result("Typechecks!");
+        } else {
+          c0_result("Typecheck failure :(");
+        }
       }
-    }
-  });
+    });
+  }, 0);
 }
 
 var Module = initModule();
