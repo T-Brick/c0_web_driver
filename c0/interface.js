@@ -103,7 +103,7 @@ function compile() {
   const dump_cfg = document.getElementById('dump-cfg').checked;
   const dump_wat = document.getElementById('dump-wat').checked;
 
-  var args = ["--cl-program", "--dump-wasm", "-e", "wasm"];
+  var args = ["--wasm-debugger", "--cl-program", "--dump-wasm", "-e", "wasm"];
   args.push("-x");
   args.push(document.getElementById('lang').value);
 
@@ -134,7 +134,7 @@ function compile() {
         }
       }
     });
-  }, 0);
+  }, 300);
 }
 
 var Module = initModule();

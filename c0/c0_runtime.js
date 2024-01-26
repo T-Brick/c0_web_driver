@@ -3,6 +3,10 @@
 const memory = new WebAssembly.Memory({ initial: 1 });
 const stdout = document.getElementById("output");
 
+/* Tracking how many times a label is entered */
+var labelMap = {};
+const maxEnterLabel = 10000000;
+
 /* Utility for parsing strings out of C0's memory */
 const c0_parse_str = function(address) {
   const bytes = new Uint8Array(memory.buffer.slice(address | 0));
@@ -32,6 +36,20 @@ const c0_abort = function(sig) {
   c0_result("abort: " + (sig | 0));
 }
 
+const c0_debug = function(lbl) {
+  if(labelMap[lbl + ""] === undefined) {
+    labelMap[lbl + ""] = 1;
+  } else {
+    labelMap[lbl + ""] = labelMap[lbl + ""] + 1;
+  }
+  if(labelMap[lbl + ""] > maxEnterLabel) {
+    c0_log("Exceeded timeout, killing program!");
+    console.log("Exceeded maximum label entry on " + lbl);
+    return 1;
+  }
+  return 0;
+}
+
 /* Required imports */
 const c0_imports = {
   c0deine: {
@@ -39,6 +57,9 @@ const c0_imports = {
     result: res => { c0_result((res | 0)) },
     abort:  sig => { c0_abort(sig | 0) },
     error:  str => { c0_result("error: \"" + c0_parse_str(str) + "\""); },
+    debug:  lbl => { setTimeout(() => {}, 0);
+                     return c0_debug(lbl);
+                   }
   },
   conio: {
     print:    str => { c0_log(c0_parse_str(str)); },
@@ -52,6 +73,7 @@ const c0_imports = {
 
 const c0_run = function(bytes) {
   const wasm = new WebAssembly.Module(bytes);
+  labelMap = {};
 
   try {
     const instance = new WebAssembly.Instance(wasm, c0_imports);
