@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en-us">
 <head>
+  <meta charset="UTF-8">
   <title>Thea's Website - c0deine</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
@@ -89,11 +90,12 @@
         <div>
           <div id="status"></div>
           <progress value="0" max="100" id="progress" hidden=1></progress>
-          <input id="compile" type="submit" value="Compile" onClick="compile();">
-          <input id="result" type="text" readonly=true></input>
-          <b>v24.03.1</b>
+          <p>
+            <input id="compile" type="submit" value="Compile" onClick="compile();">
+            <input id="result" type="text" readonly=true></input>
+            <b>v24.03.1</b>
+          </p>
         </div>
-        <br />
       </div>
       <textarea id="output" class="console" rows="20" cols="40" readonly=true></textarea>
     </div>
@@ -121,7 +123,7 @@
         <a href="https://github.com/T-Brick/c0deine/issues">here</a>.
       </p>
       <h3>Verification Status</h3>
-      Currently the following parts of the compiler are verified:
+      <p>Currently the following parts of the compiler are verified:</p>
       <ul>
         <li><u>Abstract Syntax Tree</u>: Static and Dynamic Semantics are
           formalised.
@@ -139,7 +141,7 @@
           Semantics are partially formalised.
         </li>
       </ul>
-      Hopefully more will be finished soon! : )
+      <p>Hopefully more will be finished soon! : )</p>
       <h3>Contributing</h3>
       <p>
         There is a lot of features, tools, etc. that I would like to implement
@@ -168,8 +170,6 @@
       </p>
     </div>
   </div>
-  <footer>
-    <hr>
-  </footer>
+  <footer></footer>
 </body>
 </html>
