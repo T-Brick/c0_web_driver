@@ -91,7 +91,7 @@
           <progress value="0" max="100" id="progress" hidden=1></progress>
           <input id="compile" type="submit" value="Compile" onClick="compile();">
           <input id="result" type="text" readonly=true></input>
-          <b>v24.01.1</b>
+          <b>v24.03.1</b>
         </div>
         <br />
       </div>
@@ -111,8 +111,8 @@
         for C0. It is written in Lean 4, which allows us to express the formal
         semantics in the same language as the compiler itself. Hopefully, the
         whole compiler will be verified at some point/soon.
-        </p>
-        <p>
+      </p>
+      <p>
         C0deine implements a number of sub-languages of C0 as well as fixing
         some bugs in the existing compiler. See
         <a href="https://github.com/T-Brick/c0deine/blob/main/langs.md">this</a>
@@ -132,7 +132,8 @@
           with respect to the dynamic semantics.
         </li>
         <li><u>Typed Syntax Tree</u>: Static Semantics are definitionally
-          enforced.
+          enforced. <a href="https://theabrick.com/c0/statics.pdf">Here</a> is
+          documentation of the static semantics.
         </li>
         <li><u>WebAssembly</u>: Static Semantics are formalised; Dynamic
           Semantics are partially formalised.
